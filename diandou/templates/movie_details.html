@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="movie">
+    <h3>{{ movie.title }}</h3>
+    <p>aka:
+    <ul>
+        {% for aka in movie.aka %}
+        <li>{{ aka }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>豆瓣ID: {{ movie.id }}</p>
+    <img src="{{ movie.image }}" alt="image" />
+    <p>rating: {{ movie.rating }}</p>
+    <p>type:
+    <ul>
+        {% for type in movie.type %}
+        <li>{{ type }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>year: {{ movie.year[0] }}</p>
+    <p>language:
+    <ul>
+        {% for lang in movie.language %}
+        <li>{{ lang }}</li>
+        {% endfor %}
+    </ul>
+    <p>director:
+    <ul>
+        {% for director in movie.director %}
+        <li>{{ director }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <p>cast:
+    <ul>
+        {% for cast in movie.cast %}
+        <li>{{ cast }}</li>
+        {% endfor %}
+    </ul>
+    </p>
+    <ul>
+        {% for tag in movie.tag %}
+        <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
+    <p>{{ movie.summary }}</p>
+</div>
+{% endblock %}
