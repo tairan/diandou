@@ -2,10 +2,8 @@
 from flask import Flask, request, render_template
 from flaskext.login import LoginManager
 
-from __init__ import import_movie
-
-app = Flask(__name__)
-app.config.from_object('settings')
+from diandou import app
+from utils import import_movie
 
 login_manager = LoginManager()
 login_manager.setup_app(app)
@@ -23,9 +21,15 @@ def add_movie():
 
 @app.route('/movie/<douban_id>')
 def movie_details(douban_id):
-    movie = import_movie(douban_id)
+    try:
+        movie = import_movie(douban_id)
+        from models import Movie, db
+        if Movie.query.filter_by(douban_id=douban_id).first() is None:
+            m = Movie(movie)
+            db.session.add(m)
+            db.session.commit()
+    except BaseException as e:
+        raise
+        #return render_template('error.html', error=e)
+
     return render_template('movie_details.html', movie=movie)
-
-
-if __name__ == "__main__":
-    app.run()
