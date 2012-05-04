@@ -39,3 +39,14 @@ class Movie(db.Model):
         self.type = u','.join(movie['type'])
         self.writer = u','.join(movie['writer'])
         self.year = movie['year'][0]
+
+    def type_list(self):
+        return self.type.split(',')
+
+    @property
+    def director_list(self):
+        return self.director.split(',')
+
+    @property
+    def cast_list(self):
+        return self.cast.split(',')

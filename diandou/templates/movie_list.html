@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+  {% for movie in movie_list %}
+  <div class="span12 well row">
+    <div class="span12">
+    <h3>{{ movie.title }}</h3>
+    </div>
+    <div class="span3">
+    <a href="#" class="thumbnail">
+      <img src="{{ movie.image }}" alt="the post of {{ movie.title }}" />
+    </a>
+    </div>
+    <div class="span4">
+    <ul>caster
+      {% for caster in movie.cast_list %}
+      <li>{{ caster }}</li>
+      {% endfor %}
+    </ul>
+    </div>
+    <div class="span4">
+    <ul>director
+      {% for director in movie.director_list %}
+      <li>{{ director }}</li>
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+  {% else %}
+  <h2>No movie found.</h2>
+  {% endfor %}
+</div>
+{% endblock %}
