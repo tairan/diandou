@@ -1,50 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
-<div id="movie">
-    <h3>{{ movie.title }}</h3>
-    <p>aka:
-    <ul>
-        {% for aka in movie.aka %}
-        <li>{{ aka }}</li>
-        {% endfor %}
-    </ul>
-    </p>
-    <p>豆瓣ID: {{ movie.id }}</p>
-    <img src="{{ movie.image }}" alt="image" />
-    <p>rating: {{ movie.rating }}</p>
-    <p>type:
-    <ul>
-        {% for type in movie.type %}
-        <li>{{ type }}</li>
-        {% endfor %}
-    </ul>
-    </p>
-    <p>year: {{ movie.year[0] }}</p>
-    <p>language:
-    <ul>
-        {% for lang in movie.language %}
-        <li>{{ lang }}</li>
-        {% endfor %}
-    </ul>
-    <p>director:
-    <ul>
-        {% for director in movie.director %}
-        <li>{{ director }}</li>
-        {% endfor %}
-    </ul>
-    </p>
-    <p>cast:
-    <ul>
-        {% for cast in movie.cast %}
-        <li>{{ cast }}</li>
-        {% endfor %}
-    </ul>
-    </p>
-    <ul>
-        {% for tag in movie.tag %}
-        <li>{{ tag }}</li>
-        {% endfor %}
-    </ul>
-    <p>{{ movie.summary }}</p>
+<div class="span8 row">
+    <h1>{{ movie.title }} ({{ movie.year }})</h1>
+    <div class="span2">
+      <img src="{{ movie.image }}" />
+    </div>
+    <div class="span5">
+      <span>导演</span>: <span>{{ movie.director }}</span><br />
+      <span>主演</span>: <span>{{ movie.cast }}</span><br />
+      <span>编剧</span>: <span>{{ movie.writer }}</span><br />
+      <span>类型</span>: <span>{{ movie.type }}</span><br />
+      <span>又名</span>: <span>{{ movie.aka }}</span><br />
+      <span>上映日期</span>: <span>{{ movie.year }}</span><br />
+    </div>
+</div>
+<p class="clearfix"></p>
+<div class="span8">
+  播放列表
+</div>
+<p class="clearfix"></p>
+<div class="span8">
+<p>剧情简介</p>
+<p>{{ movie.summary }}</p>
 </div>
 {% endblock %}

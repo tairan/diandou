@@ -17,13 +17,17 @@ def login():
         return redirect(request.args.get("next") or url_for("/admin"))
 
 
-@app.route("/admin/movie/add")
-def add_movie():
-    raise NotImplemented
-
-
-@app.route('/movie/<douban_id>')
+@app.route("/movie/<douban_id>")
 def movie_details(douban_id):
+    movie = Movie.query.filter_by(douban_id=douban_id).first()
+    if movie is None:
+        raise http_404
+
+    return render_template('movie_details.html', movie=movie)
+
+
+@app.route('/admin/movie/add/<douban_id>')
+def add_movie(douban_id):
     try:
         movie = import_movie(douban_id)
 
@@ -41,10 +45,8 @@ def movie_details(douban_id):
 @app.route('/movie/list')
 def movie_list():
     if request.args.get('type') != None:
-        filter_type = request.args.get('type')
+        movie_list = Movie.query.filter(Movie.type.like(u"%{0}%".format(filter_type))).all()
     else:
-        filter_type = 'Unkown'
-
-    movie_list = Movie.query.filter(Movie.type.like(u"%{0}%".format(filter_type))).all()
+        movie_list = Movie.query.all()
 
     return render_template('movie_list.html', movie_list=movie_list)
