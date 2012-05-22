@@ -31,7 +31,10 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
 	<div class="container">
-	  <div class="brand">点豆电影</div>
+	  <div class="brand"><a href="/">点豆电影</a></div>
+	  <ul class="nav pull-right">
+	    <li><a href="/logout">Logout</a></li>
+	  </ul>
 	</div>
       </div>
     </div>
@@ -47,8 +50,8 @@
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/libs/jquery-1.7.1.min.js') }}"><\/script>')</script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery-1.6.4.min.js') }}"><\/script>')</script>
 
   <!-- scripts concatenated and minified via build script -->
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

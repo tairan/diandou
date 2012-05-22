@@ -1,3 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="span12">  <form action="/login" method="post">
+    <p>
+      <label>Username</label>
+      <input type="text" name="username" />
+    </p>
+    <p>
+      <label>Password</label>
+      <input type="password" name="password" />
+    </p>
+    <p>
+      <input type="submit" value="Login" />
+    </p>
+  </form>
+</div>
 {% endblock %}

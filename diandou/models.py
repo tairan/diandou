@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import UserMixin
 
 from diandou import app
 
@@ -40,13 +41,37 @@ class Movie(db.Model):
         self.writer = u','.join(movie['writer'])
         self.year = movie['year'][0]
 
-    def type_list(self):
-        return self.type.split(',')
 
-    @property
-    def director_list(self):
-        return self.director.split(',')
+class MovieFile(db.Model):
+    
+    def __init__(self, movie, path):
+        self.movie = movie
+        self.path  = path
 
-    @property
-    def cast_list(self):
-        return self.cast.split(',')
+    id = db.Column(db.Integer, primary_key=True)
+    path = db.Column(db.String(512))
+
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    movie = db.relationship('Movie',
+                            backref=db.backref('items', lazy='dynamic'))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(16))
+    password = db.Column(db.String(128))
+    
+    def __init__(self, username):
+        self.username = username
+        self.password = None
+
+    def set_password(self, raw_password):
+        self.password = raw_password
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False

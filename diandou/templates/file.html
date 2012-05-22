@@ -1,0 +1,9 @@
+<div id="file-choice">
+  <select name="root">
+    {% for d in root_dirs %}<option value="{{ d }}">{{ d }}</option>{% endfor %}
+  </select>
+</div>
+
+<div>
+  {% for d in dirs %}<span>{{ d }}</span><br>{% endfor %}
+</div>
