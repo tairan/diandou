@@ -25,7 +25,7 @@ def login():
         current_user = User.query.filter_by(
             username=username, password=password).first()
         if current_user is None:
-            return redirect(url_for('/login'))
+            return redirect(url_for('login'))
         else:
             login_user(current_user)
         flash("Logged in successfully.")
