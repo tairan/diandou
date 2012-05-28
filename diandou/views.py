@@ -6,7 +6,7 @@ from flaskext.login import LoginManager, login_required, login_user, logout_user
 
 from diandou import app
 from diandou.models import Movie, db, User
-from diandou.utils import import_movie
+from diandou.utils import get_movie
 
 login_manager = LoginManager()
 login_manager.setup_app(app)
@@ -63,18 +63,37 @@ def movie_details(douban_id):
 @app.route('/admin/movie/add/<douban_id>')
 @login_required
 def add_movie(douban_id):
-    try:
-        movie = import_movie(douban_id)
+    movie = get_movie(douban_id)
+    if movie is None:
+        return "404"
 
-        if Movie.query.filter_by(douban_id=douban_id).first() is None:
-            m = Movie(movie)
-            db.session.add(m)
-            db.session.commit()
-    except BaseException as e:
-        raise
-        #return render_template('error.html', error=e)
+    exist = Movie.query.filter_by(douban_id=douban_id).first()
+    if exist is None:
+        movie = Movie(movie)
+        db.session.add(movie)
+        db.session.commit()
 
     return render_template('movie_details.html', movie=movie)
+
+
+@app.route('/admin/movie/search')
+def search_movies():
+    key = request.args.get('q')
+    if key is None:
+        return redirect(url_for('search_movies'))
+    result = Movie.query.filter(Movie.title.like(u"%{0}%".format(key))).all()
+    if len(result) == 0:
+        result = douban_search(key)
+
+    return render_template('movie_list.html', movie_list=local_result)
+
+
+@app.route('/test/search')
+def search():
+    key = request.args.get('q')
+    result = douban_search(key)
+
+    return render_template('test.html', result=result, result_attr=dir(result))
 
 
 @app.route('/movie/list')
