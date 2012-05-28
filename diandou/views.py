@@ -6,7 +6,7 @@ from flaskext.login import LoginManager, login_required, login_user, logout_user
 
 from diandou import app
 from diandou.models import Movie, db, User
-from diandou.utils import get_movie
+from diandou.utils import get_movie, douban_search
 
 login_manager = LoginManager()
 login_manager.setup_app(app)
@@ -93,7 +93,7 @@ def search():
     key = request.args.get('q')
     result = douban_search(key)
 
-    return render_template('test.html', result=result, result_attr=dir(result))
+    return render_template('test.html', keywords=key, result=result, result_attr=dir(result))
 
 
 @app.route('/movie/list')
@@ -104,6 +104,7 @@ def movie_list():
         movie_list = Movie.query.all()
 
     return render_template('movie_list.html', movie_list=movie_list)
+
 
 @app.route('/file')
 def file_choice():

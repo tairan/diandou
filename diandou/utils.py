@@ -4,8 +4,9 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 from douban.service import DoubanService
-from diandou.settings import DOUBAN_API_KEY
+from diandou.settings import DOUBAN_API_KEY, DOUBAN_SECRET
 
+client = DoubanService(api_key=DOUBAN_API_KEY, secret=DOUBAN_SECRET)
 
 def _get_attribute(attributes, name):
     return [att.text for att in attributes
@@ -14,7 +15,7 @@ def _get_attribute(attributes, name):
 
 def get_douban_movie(douban_id):
     uri = "/movie/subject/{0}".format(douban_id)
-    client = DoubanService(api_key=DOUBAN_API_KEY)
+
     try:
         return client.GetMovie(uri)
     except BaseException:
@@ -22,8 +23,8 @@ def get_douban_movie(douban_id):
 
 
 def douban_search(query, start_index=0, max_result=10):
-    #result = client.SearchMovie(query)
-    result = client.QueryMovieByTag(query)
+    result = client.SearchMovie(query)
+    #result = client.QueryMovieByTag(query)
     #result = client.SearchPeople(query)
 
     return result
