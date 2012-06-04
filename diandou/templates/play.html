@@ -1,16 +1,28 @@
 {% extends "layout.html" %}
 {% block container %}
-<div style="margin-top:60px;background-color:#000;">
-    <div class="container">
-        <div class="inner" style="background-color:#fff;min-hight:544px;">
-            <object classid="clsid:02E2D748-67F8-48B4-8AB4-0A085374BB99" id="BaiduPlayer" name="BaiduPlayer">
-                <param name="URL" value="{{ url }}">
-                <param name="AutoPlay" value="0">
-                <!-- 播放器上一集播放链接 -->
-                <!--<param name="LastWebPage" value="">
-                <param name="NextWebPage" value="">-->
-            </object>
-        </div>
+<div class="container">
+    <div class="inner">
+        <!-- Baidu player -->
+        <!--
+        <object classid="clsid:02E2D748-67F8-48B4-8AB4-0A085374BB99" id="BaiduPlayer" name="BaiduPlayer">
+            <param name="URL" value="{{ url }}">
+            <param name="AutoPlay" value="0">-->
+            <!-- 播放器上一集播放链接 -->
+            <!--<param name="LastWebPage" value="">
+            <param name="NextWebPage" value="">-->
+            <!--
+        </object>
+        -->
+        <!-- end of Baidu -->
+        <!-- realplayer -->
+        <object id="player" classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="640" height="480">
+            <param name="src" value="{{ url }}">
+            <param name="console" value="one">
+            <param name="controls" value="ImageWindow">
+            <param name="backgroundcolor" value="black">
+        </object>
+        <!-- end of realplayer -->
     </div>
 </div>
+
 {% endblock %}
