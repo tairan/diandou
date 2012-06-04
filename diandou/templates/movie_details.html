@@ -16,7 +16,12 @@
 </div>
 <p class="clearfix"></p>
 <div class="span8">
-  播放列表
+    <h3>播放列表</h3>
+    {% for file in files %}
+    <a href="{{ url_for('movie_player', douban_id=movie.douban_id) }}">{{ file.id }}</a>
+    {% else %}
+    <div class="alert alert-warning">No any files</div>
+    {% endfor %}
 </div>
 <p class="clearfix"></p>
 <div class="span8">

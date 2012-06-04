@@ -55,6 +55,15 @@ class MovieFile(db.Model):
     movie = db.relationship('Movie',
                             backref=db.backref('items', lazy='dynamic'))
 
+
+def find_movie_files(douban_id):
+    movie = Movie.query.filter(Movie.douban_id == douban_id).first()
+    files = []
+    if not movie is None:
+        files = MovieFile.query.filter(MovieFile.movie_id == movie.id).all()
+    return files
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16))

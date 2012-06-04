@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 from flaskext.login import LoginManager, login_required, login_user, logout_user
 
 from diandou import app
-from diandou.models import Movie, db, User
+from diandou.models import Movie, db, User, find_movie_files
 from diandou.utils import get_movie, douban_search
 
 login_manager = LoginManager()
@@ -71,10 +71,10 @@ def add_movie(douban_id):
 @app.route("/movie/<douban_id>")
 def movie_details(douban_id):
     movie = Movie.query.filter_by(douban_id=douban_id).first()
-    if movie is None:
-        raise http_404
 
-    return render_template('movie_details.html', movie=movie)
+    files = find_movie_files(douban_id)
+
+    return render_template('movie_details.html', movie=movie, files=files)
 
 @app.route('/movie/play/<douban_id>')
 def movie_player(douban_id):
