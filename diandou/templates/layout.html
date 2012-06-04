@@ -6,64 +6,60 @@
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-
-  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-       More info: h5bp.com/i/378 -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-  <title>{{ title }}</title>
-  <meta name="description" content="">
-
-  <!-- Mobile viewport optimized: h5bp.com/viewport -->
-  <meta name="viewport" content="width=device-width">
-
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-
+    <meta charset="utf-8">
+    <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+         More info: h5bp.com/i/378 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{{ title }}</title>
+    <meta name="description" content="">
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 </head>
 <body>
-  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-       chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-  <header>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-	<div class="container">
-	  <div class="brand"><a href="/">点豆电影</a></div>
-	  <ul class="nav pull-right">
-	    <li><a href="/logout">Logout</a></li>
-	  </ul>
-	</div>
-      </div>
+<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+                    chromium.org/developers/how-tos/chrome-frame-getting-started -->
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<header>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="brand"><a href="/">点豆电影</a></div>
+            <ul class="nav pull-right">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
     </div>
-  </header>
-  <div class="container" style="margin-top: 60px">
+</div>
+</header>
+{% block container %}
+<div class="container" style="margin-top: 60px">
     {% block content %}{% endblock %}
-  </div>
-  <footer>
+</div>
+{% endblock %}
+<footer>
 
-  </footer>
+</footer>
 
 
-  <!-- JavaScript at the bottom for fast page loading -->
+<!-- JavaScript at the bottom for fast page loading -->
 
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery-1.6.4.min.js') }}"><\/script>')</script>
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery-1.6.4.min.js') }}"><\/script>')</script>
 
-  <!-- scripts concatenated and minified via build script -->
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <!-- end scripts -->
+<!-- scripts concatenated and minified via build script -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<!-- end scripts -->
 
-  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
-       mathiasbynens.be/notes/async-analytics-snippet -->
-  <script>/*
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));*/
-  </script>
+<!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+    mathiasbynens.be/notes/async-analytics-snippet -->
+<script>/*
+        var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));*/
+</script>
 </body>
 </html>

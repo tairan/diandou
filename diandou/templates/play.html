@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block container %}
+<div style="margin-top:60px;background-color:#000;">
+    <div class="container">
+        <div class="inner" style="background-color:#fff;min-hight:544px;">
+            <object classid="clsid:02E2D748-67F8-48B4-8AB4-0A085374BB99" id="BaiduPlayer" name="BaiduPlayer">
+                <param name="URL" value="{{ url }}">
+                <param name="AutoPlay" value="0">
+                <!-- 播放器上一集播放链接 -->
+                <!--<param name="LastWebPage" value="">
+                <param name="NextWebPage" value="">-->
+            </object>
+        </div>
+    </div>
+</div>
+{% endblock %}

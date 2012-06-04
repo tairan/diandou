@@ -10,6 +10,7 @@ from diandou.utils import get_movie, douban_search
 
 login_manager = LoginManager()
 login_manager.setup_app(app)
+login_manager.login_view = 'login'
 
 
 @login_manager.user_loader
@@ -51,15 +52,6 @@ def home():
     return redirect(url_for('movie_list'))
 
 
-@app.route("/movie/<douban_id>")
-def movie_details(douban_id):
-    movie = Movie.query.filter_by(douban_id=douban_id).first()
-    if movie is None:
-        raise http_404
-
-    return render_template('movie_details.html', movie=movie)
-
-
 @app.route('/admin/movie/add/<douban_id>')
 @login_required
 def add_movie(douban_id):
@@ -74,6 +66,19 @@ def add_movie(douban_id):
         db.session.commit()
 
     return render_template('movie_details.html', movie=movie)
+
+
+@app.route("/movie/<douban_id>")
+def movie_details(douban_id):
+    movie = Movie.query.filter_by(douban_id=douban_id).first()
+    if movie is None:
+        raise http_404
+
+    return render_template('movie_details.html', movie=movie)
+
+@app.route('/movie/play/<douban_id>')
+def movie_player(douban_id):
+    return render_template('play.html')
 
 
 @app.route('/admin/movie/search')
