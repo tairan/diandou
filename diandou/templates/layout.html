@@ -33,6 +33,17 @@
     </div>
 </div>
 </header>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-info" style="margin-top: 60px">
+    <ul>
+        {% for msg in messages %}
+        <li>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
 {% block container %}
 <div class="container" style="margin-top: 60px">
     {% block content %}{% endblock %}
@@ -49,17 +60,17 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery-1.6.4.min.js') }}"><\/script>')</script>
 
-<!-- scripts concatenated and minified via build script -->
-<!-- script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script-->
-<!-- end scripts -->
-{% block javascripts %}{% endblock %}
-<!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+    <!-- scripts concatenated and minified via build script -->
+    <!-- script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script-->
+    <!-- end scripts -->
+    {% block javascripts %}{% endblock %}
+    <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
     mathiasbynens.be/notes/async-analytics-snippet -->
-<script>/*
+    <script>/*
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g,s)}(document,'script'));*/
-</script>
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));*/
+    </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 from flaskext.login import LoginManager, login_required, login_user, logout_user
 
 from diandou import app
-from diandou.models import Movie, db, User, find_movie_files
+from diandou.models import Movie, db, User
 from diandou.utils import get_movie, douban_search
 
 login_manager = LoginManager()
@@ -23,13 +23,12 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        current_user = User.query.filter_by(
-            username=username, password=password).first()
-        if current_user is None:
+        user = User.query.authenticate(username, password)
+        if user is None:
+            flash('Login failed.')
             return redirect(url_for('login'))
         else:
-            login_user(current_user)
-        flash("Logged in successfully.")
+            login_user(user)
         return redirect(request.args.get("next") or url_for('dashboard'))
     return render_template('login.html')
 
@@ -65,7 +64,7 @@ def add_movie():
         douban_id = request.form.get('douban_id')
         movie = get_movie(douban_id)
 
-        exist = Movie.query.filter_by(douban_id=douban_id).first()
+        exist = Movie.query.get_by_douban_id(douban_id)
         if exist is None:
             movie = Movie(movie)
             db.session.add(movie)
@@ -77,9 +76,7 @@ def add_movie():
 
 @app.route("/movie/<douban_id>")
 def movie_details(douban_id):
-    movie = Movie.query.filter_by(douban_id=douban_id).first()
-
-    files = find_movie_files(douban_id)
+    movie, files = Movie.query.movie_files(douban_id)
 
     return render_template('movie_details.html', movie=movie, files=files)
 
@@ -110,13 +107,10 @@ def search():
 
 @app.route('/movie/list')
 def movie_list():
-    filter_by = request.args.get('type')
-    if not filter_by is None:
-        movie_list = Movie.query.filter(Movie.type.like(u"%{0}%".format(filter_by))).order_by(Movie.year.desc()).all()
-    else:
-        movie_list = Movie.query.order_by(Movie.year.desc()).all()
+    tag = request.args.get('type', None)
+    movies = Movie.query.to_list(tag)
 
-    return render_template('movie_list.html', movie_list=movie_list)
+    return render_template('movie_list.html', movies=movies)
 
 
 @app.route('/file')

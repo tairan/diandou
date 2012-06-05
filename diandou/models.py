@@ -1,12 +1,34 @@
-#-*- coding:utf-8 -*-
-from flask.ext.sqlalchemy import SQLAlchemy
+# -*- coding:utf-8 -*-
+from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
 from flask.ext.login import UserMixin
 
 from diandou import app
 
 db = SQLAlchemy(app)
 
+
+class MovieQuery(BaseQuery):
+
+    def get_by_douban_id(self, douban_id):
+        return self.filter(Movie.douban_id==douban_id).first()
+
+    def movie_files(self, douban_id):
+        movie = self.filter(Movie.douban_id==douban_id).first()
+        files = MovieFile.query.filter(MovieFile.movie_id==movie.id).all()
+        return movie, files
+
+    def to_list(self, tag=None):
+        if not tag is None:
+            movie_list = self.filter(Movie.type.like(u"%{0}%".format(tag))).order_by(Movie.year.desc())
+        else:
+            movie_list = self.order_by(Movie.year.desc())
+        return movie_list.all()
+
+
 class Movie(db.Model):
+
+    query_class = MovieQuery
+
     id = db.Column(db.Integer, primary_key=True)
     douban_id = db.Column(db.String(8), unique=True)
     api_link = db.Column(db.String(256), unique=True)
@@ -43,7 +65,7 @@ class Movie(db.Model):
 
 
 class MovieFile(db.Model):
-    
+
     def __init__(self, movie, path):
         self.movie = movie
         self.path  = path
@@ -56,22 +78,27 @@ class MovieFile(db.Model):
                             backref=db.backref('items', lazy='dynamic'))
 
 
-def find_movie_files(douban_id):
-    movie = Movie.query.filter(Movie.douban_id == douban_id).first()
-    files = []
-    if not movie is None:
-        files = MovieFile.query.filter(MovieFile.movie_id == movie.id).all()
-    return files
+class UserQuery(BaseQuery):
+
+    def authenticate(self, username, password):
+        user = self.filter(User.username==username).filter(User.password==password).first()
+        return user
 
 
 class User(db.Model, UserMixin):
+
+    query_class = UserQuery
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16))
     password = db.Column(db.String(128))
-    
+
     def __init__(self, username):
         self.username = username
         self.password = None
+
+    def __unicode__(self):
+        return self.username
 
     def set_password(self, raw_password):
         self.password = raw_password

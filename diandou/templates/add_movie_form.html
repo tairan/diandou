@@ -1,10 +1,5 @@
 {% extends "admin.html" %}
 {% block trunk %}
-{% for msg in get_flashed_messages() %}
-<div class="alert alert-message">
-    {{ msg }}
-</div>
-{% endfor %}
 <form action="{{ url_for('add_movie') }}" method="post">
     <p><label>豆瓣ID</label><input type="text" name="douban_id"></p>
     <p><input type="submit" value="Add"></p>
@@ -15,7 +10,7 @@
 <script>
     $(function(){
         jQuery.fx.interval = 3000;
-        $('div.alert.alert-message').hide('slow');
+        $('div.alert.alert-info').hide('slow');
     });
 </script>
 {% endblock %}

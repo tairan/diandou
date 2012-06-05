@@ -1,17 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="span12">  <form action="/login" method="post">
-    <p>
-      <label>Username</label>
-      <input type="text" name="username" autofocus>
-    </p>
-    <p>
-      <label>Password</label>
-      <input type="password" name="password">
-    </p>
-    <p>
-      <input type="submit" value="Login">
-    </p>
-  </form>
+<div class="span12">
+    <form action="{{ url_for('login') }}" method="post">
+        <p>
+        <label>用户名</label>
+        <input type="text" name="username" autofocus>
+        </p>
+        <p>
+        <label>密码</label>
+        <input type="password" name="password">
+        </p>
+        <p>
+        <input type="submit" value="Login">
+        </p>
+    </form>
 </div>
 {% endblock %}
