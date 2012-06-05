@@ -110,10 +110,11 @@ def search():
 
 @app.route('/movie/list')
 def movie_list():
-    if request.args.get('type') != None:
-        movie_list = Movie.query.filter(Movie.type.like(u"%{0}%".format(filter_type))).all()
+    filter_by = request.args.get('type')
+    if not filter_by is None:
+        movie_list = Movie.query.filter(Movie.type.like(u"%{0}%".format(filter_by))).order_by(Movie.year.desc()).all()
     else:
-        movie_list = Movie.query.all()
+        movie_list = Movie.query.order_by(Movie.year.desc()).all()
 
     return render_template('movie_list.html', movie_list=movie_list)
 
