@@ -1,28 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div id="moive_list" class="span8">
-  {% for movie in movie_list %}
-  <table width="100%">
-    <tbody>
-      <tr>
-	<td class="span2">
-	  <img src="{{ movie.image }}" alt="{{ movie.image }}" />
-	</td>
-	<td>
-	  <p><a href="/movie/{{ movie.douban_id }}">{{ movie.title }}</a></p>
-	  <p>
-	    {{ movie.year }} /
-	    {{ movie.aka }} /
-	    {{ movie.cast }} /
-	    {{ movie.director }}
-	  </p>
-	</td>
-	</tr>
-      </tbody>
+<div id="moive_list" class="span12">
+    {% for movie in movie_list %}
+    <table width="100%" class="table">
+        <tbody>
+            <tr>
+                <td class="span2">
+                    <img src="{{ movie.image }}" alt="{{ movie.image }}" />
+                </td>
+                <td>
+                    <p><a href="/movie/{{ movie.douban_id }}">{{ movie.title }}</a></p>
+                    <p>
+                    {{ movie.year }} /
+                    {{ movie.aka }} /
+                    {{ movie.cast }} /
+                    {{ movie.director }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
     </table>
-  <hr />
-  {% else %}
-  <h2>No movie found.</h2>
-  {% endfor %}
+    {% else %}
+    <h2>No movie found.</h2>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -1,31 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="span8 row">
+<div class="span12 row">
     <h1>{{ movie.title }} ({{ movie.year }})</h1>
     <div class="span2">
-      <img src="{{ movie.image }}" />
+        <img src="{{ movie.image }}" />
     </div>
-    <div class="span5">
-      <span>导演</span>: <span>{{ movie.director }}</span><br />
-      <span>主演</span>: <span>{{ movie.cast }}</span><br />
-      <span>编剧</span>: <span>{{ movie.writer }}</span><br />
-      <span>类型</span>: <span>{{ movie.type }}</span><br />
-      <span>又名</span>: <span>{{ movie.aka }}</span><br />
-      <span>上映日期</span>: <span>{{ movie.year }}</span><br />
+    <div class="span9">
+        <span>导演</span>: <span>{{ movie.director }}</span><br />
+        <span>主演</span>: <span>{{ movie.cast }}</span><br />
+        <span>编剧</span>: <span>{{ movie.writer }}</span><br />
+        <span>类型</span>: <span>{{ movie.type }}</span><br />
+        <span>又名</span>: <span>{{ movie.aka }}</span><br />
+        <span>上映日期</span>: <span>{{ movie.year }}</span><br />
     </div>
 </div>
-<p class="clearfix"></p>
-<div class="span8">
-    <h3>播放列表</h3>
+<div class="clearfix"></div>
+<hr>
+<div class="span12">
+    <h2>播放列表</h2>
     {% for file in files %}
-    <a href="{{ url_for('movie_player', douban_id=movie.douban_id) }}">{{ file.id }}</a>
+    <div style="dispaly: block;border: solid #ccc 1px;padding:3px;width:2.0em;float: left;text-align: center;margin-left: 5px;">
+        <a href="{{ url_for('movie_player', douban_id=movie.douban_id) }}">{{ files.index(file) + 1 }}</a>
+    </div>
     {% else %}
-    <div class="alert alert-warning">No any files</div>
+    <div class="alert alert-warning">没有播放文件</div>
     {% endfor %}
 </div>
-<p class="clearfix"></p>
-<div class="span8">
-<p>剧情简介</p>
-<p>{{ movie.summary }}</p>
+<div class="clearfix"></div>
+<hr>
+<div class="span12">
+    <h2>剧情简介</h2>
+    <p>{{ movie.summary }}</p>
 </div>
 {% endblock %}
