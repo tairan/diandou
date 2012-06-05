@@ -44,7 +44,13 @@ def logout():
 @app.route('/admin')
 @login_required
 def dashboard():
-    return "<h1>Welcome admin</h1>"
+    return render_template('admin.html')
+
+
+@app.route('/admin/password/update')
+@login_required
+def change_password():
+    pass
 
 
 @app.route('/')
@@ -52,20 +58,21 @@ def home():
     return redirect(url_for('movie_list'))
 
 
-@app.route('/admin/movie/add/<douban_id>')
+@app.route('/admin/movie/add', methods=['GET', 'POST'])
 @login_required
-def add_movie(douban_id):
-    movie = get_movie(douban_id)
-    if movie is None:
-        return "404"
+def add_movie():
+    if request.method == 'POST':
+        douban_id = request.form.get('douban_id')
+        movie = get_movie(douban_id)
 
-    exist = Movie.query.filter_by(douban_id=douban_id).first()
-    if exist is None:
-        movie = Movie(movie)
-        db.session.add(movie)
-        db.session.commit()
+        exist = Movie.query.filter_by(douban_id=douban_id).first()
+        if exist is None:
+            movie = Movie(movie)
+            db.session.add(movie)
+            db.session.commit()
+            flash('Add movie successful!')
 
-    return render_template('movie_details.html', movie=movie)
+    return render_template('add_movie_form.html')
 
 
 @app.route("/movie/<douban_id>")
