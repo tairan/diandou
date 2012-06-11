@@ -22,12 +22,15 @@ def get_douban_movie(douban_id):
         return None
 
 
-def douban_search(query, start_index=0, max_result=10):
-    result = client.SearchMovie(query)
+def douban_search(text_query, start_index=0, max_results=10):
+    result = client.SearchMovie(text_query, start_index=start_index, max_results=max_results)
     #result = client.QueryMovieByTag(query)
     #result = client.SearchPeople(query)
+    movies = []
+    for entry in result:
+        movies.append(entry) #TODO: convert the douban entry to local format.
 
-    return result
+    return movies
 
 
 def get_movie(douban_id):
@@ -35,7 +38,7 @@ def get_movie(douban_id):
 
     if douban_movie is None:
         return None
-    
+
     movie = {}
     movie['id'] = douban_id
     movie['api_link'] = unicode(douban_movie.id.text)
