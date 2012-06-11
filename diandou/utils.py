@@ -2,7 +2,10 @@
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+import json
+from urlparse import urlparse
 
+from gdata.service import RequestError
 from douban.service import DoubanService
 from diandou.settings import DOUBAN_API_KEY, DOUBAN_SECRET
 
@@ -18,17 +21,18 @@ def get_douban_movie(douban_id):
 
     try:
         return client.GetMovie(uri)
-    except BaseException:
+    except RequestError as e:
+        err = json.loads(json.dumps(e.message))
         return None
 
 
 def douban_search(text_query, start_index=0, max_results=10):
-    result = client.SearchMovie(text_query, start_index=start_index, max_results=max_results)
-    #result = client.QueryMovieByTag(query)
-    #result = client.SearchPeople(query)
+    feed = client.SearchMovie(text_query, start_index=start_index, max_results=max_results)
     movies = []
-    for entry in result:
-        movies.append(entry) #TODO: convert the douban entry to local format.
+    for movie in feed.entry:
+        movie_uri = urlparse(movie.id.text)
+        douban_id = movie_uri.path.split('/')[-1:]
+        movies.append(douban_id) #TODO: convert the douban entry to local format.
 
     return movies
 
