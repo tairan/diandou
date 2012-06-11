@@ -27,7 +27,11 @@
         <div class="container">
             <div class="brand"><a href="/">点豆电影</a></div>
             <ul class="nav pull-right">
+                {% if current_user.is_authenticated() %}
                 <li><a href="/logout">Logout</a></li>
+                {% else %}
+                <li><a href="/login">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
