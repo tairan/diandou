@@ -1,5 +1,13 @@
 #-*- coding:utf-8 -*-
-from flask.ext.script import Manager
+
+try:
+    from flask.ext.script import Manager
+except ImportError:
+    import os
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    activate_this = "{0}/env/bin/activate_this.py".format(current_dir)
+    execfile(activate_this, dict(__file__=activate_this))
+    from flask.ext.script import Manager
 
 from diandou import app
 from diandou.models import db, User
@@ -21,7 +29,7 @@ def setup():
 
 @manager.command
 def test():
-   testing() 
+   testing()
 
 if __name__ == '__main__':
     manager.run()
