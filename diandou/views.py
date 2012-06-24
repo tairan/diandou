@@ -77,7 +77,7 @@ def add_movie():
 
 @app.route("/movie/<douban_id>")
 def movie_details(douban_id):
-    movie, files = Movie.query.movie_files(douban_id)
+    movie, files = Movie.query.get_files(douban_id)
 
     return render_template('movie_details.html', movie=movie, files=files)
 

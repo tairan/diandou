@@ -3,8 +3,8 @@ from flask.ext.sqlalchemy import SQLAlchemy, BaseQuery
 from flask.ext.login import UserMixin
 
 from diandou import app
-
 db = SQLAlchemy(app)
+from diandou.mediatomb import *
 
 
 class MovieQuery(BaseQuery):
@@ -12,10 +12,9 @@ class MovieQuery(BaseQuery):
     def get_by_douban_id(self, douban_id):
         return self.filter(Movie.douban_id==douban_id).first()
 
-    def movie_files(self, douban_id):
-        movie = self.filter(Movie.douban_id==douban_id).first()
-        files = MovieFile.query.filter(MovieFile.movie_id==movie.id).all()
-        return movie, files
+    def get_files(self, douban_id):
+        movie = Movie.query.filter(Movie.douban_id==douban_id).first()
+        return movie, sorted(MovieFile.query.filter(MovieFile.movie_id==movie.id).all())
 
     def to_list(self, tag=None):
         if not tag is None:
@@ -66,16 +65,20 @@ class Movie(db.Model):
 
 class MovieFile(db.Model):
 
-    def __init__(self, movie, path):
-        self.movie = movie
-        self.path  = path
+    def __init__(self, movie, media):
+        self.movie_id = movie.id
+        self.media_id = media.id
 
     id = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.String(512))
 
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
     movie = db.relationship('Movie',
                             backref=db.backref('items', lazy='dynamic'))
+
+    media_id = db.Column(db.Integer, db.ForeignKey('media.id'))
+    media = db.relationship('Media',
+                            backref=db.backref('files', lazy='dynamic'))
+
 
 
 class UserQuery(BaseQuery):
