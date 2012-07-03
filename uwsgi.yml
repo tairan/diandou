@@ -1,0 +1,7 @@
+uwsgi:
+  socket: 127.0.0.1:3031
+  master: 1
+  processes: 4
+  virtualenv: /opt/diandou/env
+  callable: app
+  file: /opt/diandou/manage.py

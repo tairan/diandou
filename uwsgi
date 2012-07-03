@@ -1,0 +1,16 @@
+#!/bin/bash
+
+PID=/var/diandou/diandou.pid
+CURRENT_DIR=/opt/diandou
+
+function stop() {
+	 kill -INT `cat $PID`
+}
+
+function start() {
+	 exec uwsgi --master --processes 4 --die-to-term --yaml $CURRENT_DIR/uwsgi.yml
+}
+
+function reload() {
+	 kill -TERM `cat $PID`
+}
